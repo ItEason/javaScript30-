@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼓点敲打</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .words {
+            display: flex;
+            width: 100%;
+            height: 609px;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        ul {
+            display: flex;
+            width: 100%;
+            height: 30%;
+            list-style: none;
+            align-items: center;
+            box-sizing: border-box;
+            justify-content: space-around;
+        }
+
+        li {
+            display: flex;
+            width: 8%;
+            height: 56%;
+            flex-wrap: wrap;
+            border-radius: 5px;
+            text-align: center;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            border: 3px solid black;
+            background-color: rgb(153, 153, 153);
+        }
+
+        li div:nth-child(1) {
+            color: white;
+            font-size: 40px;
+            text-shadow: 0 0 5px black;
+        }
+
+        li div:nth-child(2) {
+            color: orange;
+            font-size: 13px;
+            text-shadow: 0 0 5px black;
+        }
+
+        .down {
+            transform: scale(1.1);
+            border: 3px solid orange;
+            box-shadow: 0 0 5px orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="words">
+        <ul>
+            <li>
+                <div>A</div>
+                <div>CLAP</div>
+            </li>
+            <li>
+                <div>S</div>
+                <div>HIHAT</div>
+            </li>
+            <li>
+                <div>D</div>
+                <div>KICK</div>
+            </li>
+            <li>
+                <div>F</div>
+                <div>OPENHAT</div>
+            </li>
+            <li>
+                <div>G</div>
+                <div>BOOM</div>
+            </li>
+            <li>
+                <div>H</div>
+                <div>RIDE</div>
+            </li>
+            <li>
+                <div>J</div>
+                <div>SNARE</div>
+            </li>
+            <li>
+                <div>K</div>
+                <div>TOM</div>
+            </li>
+            <li>
+                <div>L</div>
+                <div>TINK</div>
+            </li>
+        </ul>
+    </div>
+
+    <audio src="./sounds/clap.wav"></audio>
+    <audio src="./sounds/hihat.wav"></audio>
+    <audio src="./sounds/kick.wav"></audio>
+    <audio src="./sounds/openhat.wav"></audio>
+    <audio src="./sounds/boom.wav"></audio>
+    <audio src="./sounds/ride.wav"></audio>
+    <audio src="./sounds/snare.wav"></audio>
+    <audio src="./sounds/tom.wav"></audio>
+    <audio src="./sounds/tink.wav"></audio>
+
+    <script>
+        // 获取页面中的全部li
+        let lis = document.querySelectorAll('li')
+        // 获取页面中的所有audio
+        let audios = document.querySelectorAll('audio')
+
+        // 给页面中的window事件注册一个键盘keydown事件
+        window.addEventListener('keydown', function (event) {
+            // 
+            for (let i = 0; i < lis.length; i++) {
+                // 
+                if (event.key.toUpperCase() == lis[i].children[0].innerHTML) {
+                    lis[i].classList.add("down")
+                    // 
+                    audios[i].currentTime = 0;
+                    // 
+                    audios[i].play()
+                }
+            }
+        })
+
+        // 给页面中的window事件注册一个键盘keydown事件
+        window.addEventListener('keyup', function (event) {
+            for (let i = 0; i < lis.length; i++) {
+                if (event.key.toUpperCase() == lis[i].children[0].innerHTML) {
+                    lis[i].classList.remove("down")
+                }
+            }
+        })
+
+        // 节流函数
+        function mythrottle(fn, interval) {
+            let lastTime = 0
+
+            const _mythrottle = function () {
+                let nowTime = new Date().getTime()
+                const waitTime = interval - (nowTime - lastTime)
+                const args = arguments
+
+                if (waitTime <= 0) {
+                    fn.apply(this, args)
+                    lastTime = nowTime
+                }
+            }
+
+            return _mythrottle
+        }
+    </script>
+</body>
+
+</html>
